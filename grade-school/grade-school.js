@@ -4,15 +4,29 @@
 //
 
 export class GradeSchool {
-  roster() {
-    throw new Error('Remove this statement and implement this function');
-  }
+    #data = {};
 
-  add() {
-    throw new Error('Remove this statement and implement this function');
-  }
+    roster() {
+        const obj = {...this.#data };
+        for (let fieldname in obj) {
+            obj[fieldname] = [...this.#data[fieldname]];
+        }
+        return obj;
+    }
 
-  grade() {
-    throw new Error('Remove this statement and implement this function');
-  }
+    add(name, grade) {
+        for (let fieldname in this.#data) {
+            this.#data[fieldname] = this.#data[fieldname]
+                .filter(name2 => name !== name2);
+        }
+        if (!this.#data[grade]) this.#data[grade] = [];
+        this.#data[grade].push(name);
+        this.grade(grade);
+    }
+
+    grade(gradeNumber) {
+        return !this.#data[gradeNumber] 
+            ? [] 
+            : [...this.#data[gradeNumber].sort()];
+    }
 }
