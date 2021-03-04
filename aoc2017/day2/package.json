@@ -4,7 +4,7 @@
     "main": "index.js",
     "license": "MIT",
     "scripts": {
-        "test.ex1": "jest ./ex1.spec.js",
+        "test.ex1": "jest ./ex1.spec.js ./parse.utils.spec.js",
         "start.ex1": "node ex1.js",
         "test.ex2": "jest ./ex2.spec.js",
         "start.ex2": "node ex2.js"

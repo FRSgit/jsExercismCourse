@@ -1,11 +1,6 @@
+const { parseToNumbers } = require('./parse.utils.js')
+
 const ex1 = (input) => calculateSumRows(parseToNumbers(input));
-
-const parseInputToRows = (input) => input.split('\n');
-
-const parseToNumbers = input => parseInputToRows(input)
-    .map((row) => row.split('\t')
-        .map(value => parseInt(value))
-    );
 
 const calculateSumRow = (row) => {
     row.sort((a, b) => a - b);
@@ -19,8 +14,6 @@ const calculateSumRows = (rows) =>
 
 module.exports = {
     ex1,
-    parseInputToRows,
-    parseToNumbers,
     calculateSumRow,
     calculateSumRows
 };
