@@ -2,7 +2,8 @@
   <img alt="Vue logo" src="./assets/logo.png">
   <input type="text" v-model="name" />
   {{ name }}
-  <HelloWorld msg="Welcome to Your Vue.js + "/>
+  <input type="number" v-model.number="someNumber">
+  <HelloWorld msg="Welcome to Your Vue.js + " :someNumber="someNumber"/>
 </template>
 
 <script lang="ts">
@@ -17,6 +18,7 @@ export default defineComponent({
   setup() {
     return {
       name: ref('cokolwiek'),
+      someNumber: ref(0),
     };
   },
 });
