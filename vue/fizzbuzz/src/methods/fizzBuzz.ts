@@ -1,4 +1,5 @@
 export const fizzBuzz = (n: number) => {
+    console.log("fizzbuzz");
     return new Array(n)
       .fill(undefined)
       .map((_item, i) => {
