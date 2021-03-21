@@ -1,33 +1,42 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-  </div>
+    <div v-for="(val, lineIndex) in diamond" :key="lineIndex">
+      <template v-for="(char, charIndex) in val" :key="charIndex">
+        <span v-if="char === ' '" class="char" />
+        <span v-else class="char char__letter">{{ char }}</span>
+      </template>
+    </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, toRefs, computed } from 'vue';
+import { rows } from '../methods/diamond'
 
 export default defineComponent({
   name: 'HelloWorld',
   props: {
-    msg: String,
+    letter: { type: String, required: true },
   },
+  setup(props){
+    const { letter } = toRefs(props);
+    const diamond = computed(() => {
+      return rows(letter.value);
+    });
+  
+    return {
+      diamond,
+    };
+  }
 });
 </script>
 
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
+.char {
   display: inline-block;
-  margin: 0 10px;
+  width: 2ch;
 }
-a {
-  color: #42b983;
+
+.char__letter {
+  background-color: black;
+  color: white;
 }
 </style>
