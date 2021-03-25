@@ -1,16 +1,28 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+  <GetTextarea @add-matrix="matrix = $event" />
+  <CheckSum :matrix="matrix"/>
+  <CheckSumModulo :matrix="matrix"/>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import HelloWorld from './components/HelloWorld.vue';
+import { defineComponent, ref } from 'vue';
+import CheckSum from './components/CheckSum.vue';
+import CheckSumModulo from './components/CheckSumModulo.vue';
+import GetTextarea from './components/GetTextarea.vue';
 
 export default defineComponent({
   name: 'App',
   components: {
-    HelloWorld
+    GetTextarea,
+    CheckSum,
+    CheckSumModulo,
+  },
+  setup() {
+    const matrix = ref([]);
+    return {
+      matrix,
+    }
   }
 });
 </script>
