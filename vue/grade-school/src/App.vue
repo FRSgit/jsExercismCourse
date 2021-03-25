@@ -1,16 +1,16 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.png">
-  <Roster msg="Welcome to Your Vue.js + TypeScript App"/>
+  <GradeSchool />
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import Roster from './components/Roster.vue';
+import GradeSchool from './components/GradeSchool.vue';
 
 export default defineComponent({
   name: 'App',
   components: {
-    Roster,
+    GradeSchool,
   }
 });
 </script>
