@@ -1,13 +1,17 @@
 <template>
-    {{ checkSum }}
+    <InfoBlock class="test" :value="checkSum">Check Sum</InfoBlock>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, PropType, toRefs } from 'vue'
+import InfoBlock from './InfoBlock.vue'
 import { calculateSumRows } from '../methods/ex1'
 
 export default defineComponent({
     name: 'CheckSum',
+    components: {
+        InfoBlock,
+    },
     props: {
         matrix:{
             type: Array as PropType<number[][]>,

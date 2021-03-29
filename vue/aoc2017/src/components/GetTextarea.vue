@@ -11,7 +11,7 @@ import { parseToNumbers} from '../methods/parse.utils'
 export default defineComponent({
   name: 'GetTextarea',
   emits: ['add-matrix'],
-  setup( props, ctx ) {
+  setup( _, ctx ) {
     const matrix = ref('');
     const matrixChanged = () => {
       ctx.emit('add-matrix', parseToNumbers(matrix.value));
