@@ -1,7 +1,7 @@
 <template>
     <div class="info-block">
         <h3><slot/>:</h3>
-        <p class="info-block_value">{{ value }}</p>
+        <p class="info-block_value"><slot name="value" :random="random" /></p>
     </div>
 </template>
 
@@ -10,12 +10,12 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
     name: 'InfoBlock',
-    props: {
-        value: {
-            type: Number,
-            required: true
-        },
-    }
+    setup() {
+        const random = Math.floor(Math.random() * 101);
+        return {
+            random,
+        }
+    },
 })
 </script>
 

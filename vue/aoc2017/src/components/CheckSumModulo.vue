@@ -1,5 +1,8 @@
 <template>
-    <InfoBlock class="modulo" :value="checkSum">Modulo Check Sum</InfoBlock>
+    <InfoBlock class="modulo">
+        <template #default>Modulo Check Sum</template>
+        <template #value="{ random }">{{ checkSum + random }}</template>
+    </InfoBlock>
 </template>
 
 <script lang="ts">

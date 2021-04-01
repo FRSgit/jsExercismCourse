@@ -1,5 +1,8 @@
 <template>
-    <InfoBlock class="test" :value="checkSum">Check Sum</InfoBlock>
+    <InfoBlock class="test" >
+        <template #default>Check Sum</template>
+        <template #value>{{ checkSum }}</template>
+    </InfoBlock>
 </template>
 
 <script lang="ts">
