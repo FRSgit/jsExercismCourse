@@ -1,15 +1,15 @@
 <template>
-  <Map :map="map"/>
+  <Board :map="map"/>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import Map from './Map.vue';
+import Board from './Board.vue'
 
 export default defineComponent({
   name: 'Game',
   components: {
-      Map,
+      Board,
   },
   setup(){
       const map = new Array(8)

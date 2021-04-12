@@ -1,22 +1,30 @@
 <template>
   <div class="map">
     <div class="map__row" v-for="(row, y) in map" :key="y">
-      <span class="map__cell" v-for="(col, x) in row" :key="x">
-        {{ col==='*'? '💣' : col }}
+      <span class="map__cell" v-for="({ value, hidden }, x) in row" :key="x" @click="$emit('clickCell', x, y)">
+        <template v-if="!hidden">
+          {{ value==='*'? '💣' : value }}
+        </template>
       </span>
     </div>
   </div>
-  
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
+export type Cell = {
+  value: string,
+  hidden: boolean,
+  flag: boolean,
+};
+
 export default defineComponent({
   name: 'Map',
   props: {
-    map: Array as PropType<string[]>,
+    map: Array as PropType<Cell[][]>,
   },
+  emits: ['clickCell'],
 });
 </script>
 

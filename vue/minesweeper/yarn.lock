@@ -874,6 +874,14 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
+"@frsource/tiny-carousel-vue@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@frsource/tiny-carousel-vue/-/tiny-carousel-vue-0.1.0.tgz#29f2c1b2e739dbc64795135239deb8ba054bcfba"
+  integrity sha512-+3pZKU17tetDSkG9I/s+hf3d7GUYNTUiSKWKDKJTFguRbZMvKOoQIFmQYBZq4eDhoRNe3eSgNVO9MjFJB/v1lg==
+  dependencies:
+    core-js "^3.6.5"
+    vue "^2.6.11"
+
 "@hapi/address@2.x.x":
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/@hapi/address/-/address-2.1.4.tgz#5d67ed43f3fd41a69d4b9ff7b56e7c0d1d0a81e5"
@@ -10420,6 +10428,11 @@ vue-template-es2015-compiler@^1.6.0, vue-template-es2015-compiler@^1.9.0:
   version "1.9.1"
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
   integrity sha512-4gDntzrifFnCEvyoO8PqyJDmguXgVPxKiIxrBKjIowvL9l+N66196+72XVYR8BBf1Uv1Fgt3bGevJ+sEmxfZzw==
+
+vue@^2.6.11:
+  version "2.6.12"
+  resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.12.tgz#f5ebd4fa6bd2869403e29a896aed4904456c9123"
+  integrity sha512-uhmLFETqPPNyuLLbsKz6ioJ4q7AZHzD8ZVFNATNyICSZouqP2Sz0rotWQC8UNBF6VGSCs5abnKJoStA6JbCbfg==
 
 vue@^3.0.0:
   version "3.0.11"
