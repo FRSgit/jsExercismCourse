@@ -44,6 +44,7 @@ export default defineComponent({
   background-color: #ddeee7;
 
   &__cell{
+    box-sizing: border-box;
     display: inline-block;
     margin: 1px;
     height: 2ch;
@@ -64,6 +65,9 @@ export default defineComponent({
 
     &--hidden{
       background-color: white;
+    }
+    &--value-{
+      border-bottom: none;
     }
     &--value-1{
       background-color: #23c5ed;

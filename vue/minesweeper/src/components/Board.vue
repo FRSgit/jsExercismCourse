@@ -21,22 +21,29 @@ export default defineComponent({
         type: Array as PropType<string[]>,
         required: true,
     },
+    clickCounter: {
+        type: Number,
+        required: true,
+    },
   },
+  emits:['update:clickCounter'],
   components: {
       Map,
   },
-  setup(props){
-      const { map } = toRefs(props);
+  setup(props,{emit}){
+      const { map, clickCounter } = toRefs(props);
       const board = ref(parseMap(map));
       watch(map, () => board.value = parseMap(map));
 
       return {
           board,
           onCellClick: (x: number, y: number) => {
+            if(board.value[y][x].hidden) emit('update:clickCounter', clickCounter.value+1);
             board.value[y][x].hidden = false;
           },
       };
   },
+
 
 });
 </script>

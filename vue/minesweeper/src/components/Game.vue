@@ -1,17 +1,24 @@
 <template>
-  <Board :map="map"/>
+  <Counter :clickCounter="clickCounter"/>
+  <Board
+    v-model:clickCounter="clickCounter"
+    :map="map"
+  />
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import Board from './Board.vue'
+import { defineComponent, ref } from 'vue';
+import Board from './Board.vue';
+import Counter from './Counter.vue';
 
 export default defineComponent({
   name: 'Game',
   components: {
       Board,
+      Counter,
   },
   setup(){
+      const clickCounter = ref(0);
       const map = new Array(8)
         .fill(0)
         .map(() => new Array(8).fill(' '));
@@ -30,6 +37,7 @@ export default defineComponent({
       
       return {
           map: map.map((val) => val.join('')),
+          clickCounter,
       }
   }
 });
