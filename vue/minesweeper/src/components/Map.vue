@@ -7,13 +7,15 @@
           'map__cell--hidden': hidden,
           ['map__cell--value-'+value]: !hidden,
         }" 
-        v-for="({ value, hidden }, x) in row" 
+        v-for="({ value, hidden, flag }, x) in row" 
         :key="x" 
         @click="$emit('clickCell', x, y)"
+        @contextmenu.prevent="$emit('rightClick', x, y)"
       >
         <template v-if="!hidden">
           {{ value==='*'? '💣' : value }}
         </template>
+        <Flag v-else-if="flag" class="map__cell-flag"/>
       </span>
     </div>
   </div>
@@ -21,6 +23,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
+import Flag from '@/assets/flag.svg';
 
 export type Cell = {
   value: string,
@@ -30,15 +33,19 @@ export type Cell = {
 
 export default defineComponent({
   name: 'Map',
+  components: {
+    Flag,
+  },
   props: {
     map: Array as PropType<Cell[][]>,
   },
-  emits: ['clickCell'],
+  emits: ['clickCell', 'rightClick'],
 });
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+$cellBorder: 1px;
 
 .map{
   background-color: #ddeee7;
@@ -46,7 +53,7 @@ export default defineComponent({
   &__cell{
     box-sizing: border-box;
     display: inline-block;
-    margin: 1px;
+    margin: $cellBorder;
     height: 2ch;
     width: 2ch;
     border-bottom: solid 4px rgba($color: #000, $alpha: 0.2);
@@ -82,8 +89,16 @@ export default defineComponent({
       background-color: red;
       color: rgba($color: #fff, $alpha: 1);
     }
+
+    &-flag {
+      margin: calc(15% - #{2*$cellBorder});
+      height: calc(80% - #{2*$cellBorder});
+      width: calc(80% - #{2*$cellBorder});
+    }
     // TODO: add more colours
   }
-
+  .d-none{
+    display: none;
+  }
 }
 </style>

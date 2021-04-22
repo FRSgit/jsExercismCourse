@@ -1,5 +1,9 @@
 <template>
-  <Map :map="board" @click-cell="onCellClick"/>
+  <Map 
+    :map="board" 
+    @click-cell="onCellClick" 
+    @right-click="toggleFlag"
+  />
 </template>
 
 <script lang="ts">
@@ -35,12 +39,17 @@ export default defineComponent({
       const board = ref(parseMap(map));
       watch(map, () => board.value = parseMap(map));
 
+      const toggleFlag = (x: number, y: number) => {
+        board.value[y][x].flag = !board.value[y][x].flag;
+      };
+
       return {
           board,
           onCellClick: (x: number, y: number) => {
             if(board.value[y][x].hidden) emit('update:clickCounter', clickCounter.value+1);
             board.value[y][x].hidden = false;
           },
+          toggleFlag,
       };
   },
 
