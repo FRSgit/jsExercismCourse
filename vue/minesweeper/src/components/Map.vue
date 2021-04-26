@@ -91,6 +91,7 @@ $cellBorder: 1px;
     }
 
     &-flag {
+      fill: #fb4499;
       margin: calc(15% - #{2*$cellBorder});
       height: calc(80% - #{2*$cellBorder});
       width: calc(80% - #{2*$cellBorder});
