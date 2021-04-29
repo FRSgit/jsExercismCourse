@@ -17,7 +17,6 @@ export default defineComponent({
 <style lang="scss" src="./fonts/font.scss"></style>
 
 <style lang="scss">
-//@import "./fonts/font";
 
 #app {
   font-family: zen_dotsregular, Arial, sans-serif;
@@ -26,5 +25,10 @@ export default defineComponent({
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+svg {
+  width: 100%;
+  height: 100%;
 }
 </style>

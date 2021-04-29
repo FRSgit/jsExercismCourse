@@ -1,6 +1,10 @@
 <template>
   <Counter :clickCounter="clickCounter"/>
-  <Counter :clickCounter="flagCounter"/> 
+  <Counter :clickCounter="flagDisplay">
+    <template v-slot:icon>
+      <Flag/>
+    </template>
+  </Counter> 
   <Board
     v-model:clickCounter="clickCounter"
     v-model:flagCounter="flagCounter"
@@ -9,9 +13,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { computed, defineComponent, ref } from 'vue';
 import Board from './Board.vue';
 import Counter from './Counter.vue';
+import Flag from '@/assets/flag.svg';
 
 const BombNumber = 10;
 
@@ -20,10 +25,12 @@ export default defineComponent({
   components: {
       Board,
       Counter,
+      Flag,
   },
   setup(){
       const clickCounter = ref(0);
       const flagCounter = ref(BombNumber);
+      const flagDisplay = computed(() => flagCounter.value.toString().padStart(3, '0'));
       const map = new Array(8)
         .fill(0)
         .map(() => new Array(8).fill(' '));
@@ -44,6 +51,7 @@ export default defineComponent({
           map: map.map((val) => val.join('')),
           clickCounter,
           flagCounter,
+          flagDisplay,
       }
   }
 });
