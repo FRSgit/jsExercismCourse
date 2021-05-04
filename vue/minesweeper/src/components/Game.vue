@@ -4,7 +4,9 @@
     <template v-slot:icon>
       <Flag/>
     </template>
-  </Counter> 
+  </Counter>
+  <Counter :clickCounter="timeCounter"/>
+  <button @click="resetTime">reset</button>
   <Board
     v-model:clickCounter="clickCounter"
     v-model:flagCounter="flagCounter"
@@ -13,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue';
+import { computed, defineComponent, ref, watch } from 'vue';
 import Board from './Board.vue';
 import Counter from './Counter.vue';
 import Flag from '@/assets/flag.svg';
@@ -28,6 +30,12 @@ export default defineComponent({
       Flag,
   },
   setup(){
+      const startCounter = ref(0);
+      const timeCounter = ref(0);
+      let intervalId: number;
+      const calculateSecond = () => {
+        timeCounter.value =  Math.floor((Date.now() - startCounter.value)/1000)
+      }
       const clickCounter = ref(0);
       const flagCounter = ref(BombNumber);
       const flagDisplay = computed(() => flagCounter.value.toString().padStart(3, '0'));
@@ -46,12 +54,28 @@ export default defineComponent({
         map[y][x] = '*';
         temp.splice(index_temp, 1);
       }
-      
+      let firstClick = true;
+      watch([flagCounter, clickCounter], () => {
+         if(firstClick){
+           firstClick = false;
+           startCounter.value = Date.now();
+           intervalId = setInterval(calculateSecond, 1000);
+         }
+      })
+
+      const resetTime = () => {
+        timeCounter.value = 0;
+        firstClick = true;
+        clearInterval(intervalId);
+      }
+
       return {
           map: map.map((val) => val.join('')),
           clickCounter,
           flagCounter,
           flagDisplay,
+          timeCounter,
+          resetTime,
       }
   }
 });
