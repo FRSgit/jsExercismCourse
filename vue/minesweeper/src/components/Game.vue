@@ -5,8 +5,12 @@
       <Flag/>
     </template>
   </Counter>
-  <Counter :clickCounter="timeCounter"/>
-  <button @click="resetTime">reset</button>
+  <Counter class="time-display" :clickCounter="formattedTime">
+    <template v-slot:icon>
+      <Clock/>
+    </template>
+  </Counter>
+  <ResetButton @click="resetTime"/>
   <Board
     v-model:clickCounter="clickCounter"
     v-model:flagCounter="flagCounter"
@@ -18,7 +22,9 @@
 import { computed, defineComponent, ref, watch } from 'vue';
 import Board from './Board.vue';
 import Counter from './Counter.vue';
+import ResetButton from './ResetButton.vue';
 import Flag from '@/assets/flag.svg';
+import Clock from '@/assets/clock.svg';
 
 const BombNumber = 10;
 
@@ -28,10 +34,13 @@ export default defineComponent({
       Board,
       Counter,
       Flag,
+      Clock,
+      ResetButton,
   },
   setup(){
       const startCounter = ref(0);
       const timeCounter = ref(0);
+      const formattedTime = computed(() => formatTime(timeCounter.value));
       let intervalId: number;
       const calculateSecond = () => {
         timeCounter.value =  Math.floor((Date.now() - startCounter.value)/1000)
@@ -69,6 +78,12 @@ export default defineComponent({
         clearInterval(intervalId);
       }
 
+      const formatTime = (time: number) => {
+        const seconds = time % 60;
+        const minutes = (time - seconds) / 60;
+        return minutes.toString().padStart(2, '0') + ":" + seconds.toString().padStart(2, '0');
+      }
+
       return {
           map: map.map((val) => val.join('')),
           clickCounter,
@@ -76,6 +91,7 @@ export default defineComponent({
           flagDisplay,
           timeCounter,
           resetTime,
+          formattedTime,
       }
   }
 });
@@ -83,5 +99,13 @@ export default defineComponent({
 
 
 <style scoped lang="scss">
+.time-display{
+  justify-content: space-between;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 0.8rem; 
+}
+
+
 
 </style>

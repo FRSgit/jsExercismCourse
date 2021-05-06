@@ -14,7 +14,7 @@ export default defineComponent({
     name: 'Counter',
     props: {
         clickCounter: {
-            type: Number,
+            type: [Number, String],
             required: true,
         },
     },
@@ -24,15 +24,16 @@ export default defineComponent({
 <style lang="scss" scoped>
 
 .click-counter {
+    box-sizing: border-box;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     width: 100px;
-    height: 1.5em;
+    height: 1.875rem;
     vertical-align: middle;
-    line-height: 1.5em;
+    line-height: 1.875rem;
     padding-top: 0.2ex;
-    border-radius: 1.5em;
+    border-radius: 1.875rem;
     font-size: 1.25rem;
     color: #fff;
     background-color: #cde;
