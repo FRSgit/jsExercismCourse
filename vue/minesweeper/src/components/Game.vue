@@ -5,12 +5,11 @@
       <Flag/>
     </template>
   </Counter>
-  <Counter class="time-display" :clickCounter="formattedTime">
-    <template v-slot:icon>
-      <Clock/>
-    </template>
-  </Counter>
-  <ResetButton @click="resetTime"/>
+  <TimeCounter 
+    v-model:time="timeCounter"
+    :start="startCounter"
+  />
+  <ResetButton @click="resetGame"/>
   <Board
     v-model:clickCounter="clickCounter"
     v-model:flagCounter="flagCounter"
@@ -22,11 +21,10 @@
 import { computed, defineComponent, ref, watch } from 'vue';
 import Board from './Board.vue';
 import Counter from './Counter.vue';
+import TimeCounter from './TimeCounter.vue';
 import ResetButton from './ResetButton.vue';
 import Flag from '@/assets/flag.svg';
-import Clock from '@/assets/clock.svg';
-
-const BombNumber = 10;
+import { MAP_BOMB_NUMBER, useMap } from '@/composables/useMap';
 
 export default defineComponent({
   name: 'Game',
@@ -34,78 +32,50 @@ export default defineComponent({
       Board,
       Counter,
       Flag,
-      Clock,
+      TimeCounter,
       ResetButton,
   },
-  setup(){
-      const startCounter = ref(0);
+  setup() {
       const timeCounter = ref(0);
-      const formattedTime = computed(() => formatTime(timeCounter.value));
-      let intervalId: number;
-      const calculateSecond = () => {
-        timeCounter.value =  Math.floor((Date.now() - startCounter.value)/1000)
-      }
+      const startCounter = ref(0);
       const clickCounter = ref(0);
-      const flagCounter = ref(BombNumber);
+      const flagCounter = ref(MAP_BOMB_NUMBER);
+      const bombNumber = ref(MAP_BOMB_NUMBER);
       const flagDisplay = computed(() => flagCounter.value.toString().padStart(3, '0'));
-      const map = new Array(8)
-        .fill(0)
-        .map(() => new Array(8).fill(' '));
-      const temp = new Array(64)
-        .fill(0)
-        .map((_val, index) => index);
-      
-      for(let i = 0; i < BombNumber; ++i){
-        const index_temp = Math.floor(Math.random() * temp.length);
-        const pos = temp[index_temp];
-        const y = Math.floor(pos / 8);
-        const x = pos % 8;
-        map[y][x] = '*';
-        temp.splice(index_temp, 1);
-      }
+      const { map, reset: resetMap } = useMap(bombNumber);
       let firstClick = true;
+
       watch([flagCounter, clickCounter], () => {
          if(firstClick){
            firstClick = false;
            startCounter.value = Date.now();
-           intervalId = setInterval(calculateSecond, 1000);
          }
-      })
+      });
 
       const resetTime = () => {
         timeCounter.value = 0;
         firstClick = true;
-        clearInterval(intervalId);
-      }
+      };
 
-      const formatTime = (time: number) => {
-        const seconds = time % 60;
-        const minutes = (time - seconds) / 60;
-        return minutes.toString().padStart(2, '0') + ":" + seconds.toString().padStart(2, '0');
-      }
+      const resetGame = () => {
+        resetMap();
+        resetTime();
+      };
 
       return {
-          map: map.map((val) => val.join('')),
+          map,
           clickCounter,
           flagCounter,
           flagDisplay,
           timeCounter,
-          resetTime,
-          formattedTime,
-      }
+          resetGame,
+          startCounter
+      };
   }
 });
 </script>
 
 
 <style scoped lang="scss">
-.time-display{
-  justify-content: space-between;
-  padding-left: 10px;
-  padding-right: 10px;
-  font-size: 0.8rem; 
-}
-
-
 
 </style>
