@@ -7,16 +7,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, Ref, ref, toRefs, watch } from 'vue';
-import Map, { Cell } from './Map.vue';
-import { annotate } from '../composables/annotate';
-
-const parseMap = (map: Ref<string[]>) =>
-  annotate(map.value)
-    .map(row => row
-      .split('')
-      .map(value => ({ value, hidden: true, flag: false}))
-    ) as Cell[][]
+import { defineComponent, PropType, ref, toRefs, watch } from 'vue';
+import Map from './Map.vue';
+import { parseMap, revealMap } from '@/utils/mapUtils';
 
 export default defineComponent({
   name: 'Board',
@@ -41,6 +34,7 @@ export default defineComponent({
   setup(props,{emit}){
       const { map, clickCounter, flagCounter } = toRefs(props);
       const board = ref(parseMap(map));
+      
       watch(map, () => board.value = parseMap(map));
 
       const toggleFlag = (x: number, y: number) => {
@@ -60,7 +54,7 @@ export default defineComponent({
         const cell = board.value[y][x];
         if(cell.flag || !cell.hidden) return;
         emit('update:clickCounter', clickCounter.value+1);
-        cell.hidden = false;
+        revealMap(board.value, y, x);
       };
 
       return {

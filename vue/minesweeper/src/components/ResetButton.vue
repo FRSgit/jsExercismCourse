@@ -12,9 +12,6 @@ import { defineComponent } from 'vue'
 export default defineComponent({
     name: 'ResetButton',
     emits: ['click'],
-    /*setup() {
-        
-    },*/
 })
 </script>
 

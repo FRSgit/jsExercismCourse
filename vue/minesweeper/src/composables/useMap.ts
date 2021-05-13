@@ -1,20 +1,21 @@
 import { ref, Ref, watch } from "vue";
 
-export const MAP_BOMB_NUMBER = 10;
+export const MAP_BOMB_NUMBER = 30;
+const MAP_SIZE = 16;
 
 const generateMap = (bombNumber: number): string[] => {
-    const map = new Array(8)
+    const map = new Array(MAP_SIZE)
         .fill(0)
-        .map(() => new Array(8).fill(' '));
-    const temp = new Array(64)
+        .map(() => new Array(MAP_SIZE).fill(' '));
+    const temp = new Array(MAP_SIZE*MAP_SIZE)
         .fill(0)
         .map((_val, index) => index);
 
     for(let i = 0; i < bombNumber; ++i){
         const index_temp = Math.floor(Math.random() * temp.length);
         const pos = temp[index_temp];
-        const y = Math.floor(pos / 8);
-        const x = pos % 8;
+        const y = Math.floor(pos / MAP_SIZE);
+        const x = pos % MAP_SIZE;
         map[y][x] = '*';
         temp.splice(index_temp, 1);
     }

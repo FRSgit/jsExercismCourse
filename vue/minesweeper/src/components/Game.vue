@@ -60,6 +60,8 @@ export default defineComponent({
       const resetGame = () => {
         resetMap();
         resetTime();
+        clickCounter.value = 0;
+        flagCounter.value = bombNumber.value;
       };
 
       return {

@@ -24,12 +24,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 import Flag from '@/assets/flag.svg';
-
-export type Cell = {
-  value: string,
-  hidden: boolean,
-  flag: boolean,
-};
+import { Cell } from '@/utils/mapUtils';
 
 export default defineComponent({
   name: 'Map',
