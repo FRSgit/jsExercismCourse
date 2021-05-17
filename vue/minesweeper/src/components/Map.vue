@@ -1,5 +1,5 @@
 <template>
-  <div class="map">
+  <div>
     <div class="map__row" v-for="(row, y) in map" :key="y">
       <span 
         class="map__cell"
@@ -43,8 +43,6 @@ export default defineComponent({
 $cellBorder: 1px;
 
 .map{
-  background-color: #ddeee7;
-
   &__cell{
     box-sizing: border-box;
     display: inline-block;

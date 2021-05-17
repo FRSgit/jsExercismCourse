@@ -1,20 +1,22 @@
 <template>
-  <Counter :clickCounter="clickCounter"/>
-  <Counter :clickCounter="flagDisplay">
-    <template v-slot:icon>
-      <Flag/>
-    </template>
-  </Counter>
-  <TimeCounter 
-    v-model:time="timeCounter"
-    :start="startCounter"
-  />
-  <ResetButton @click="resetGame"/>
-  <Board
-    v-model:clickCounter="clickCounter"
-    v-model:flagCounter="flagCounter"
-    :map="map"
-  />
+  <div class="game">
+    <Counter :clickCounter="clickCounter"/>
+    <Counter :clickCounter="flagDisplay">
+      <template v-slot:icon>
+        <Flag/>
+      </template>
+    </Counter>
+    <TimeCounter 
+      v-model:time="timeCounter"
+      :start="startCounter"
+    />
+    <ResetButton @click="resetGame"/>
+    <Board class="mt-10px"
+      v-model:clickCounter="clickCounter"
+      v-model:flagCounter="flagCounter"
+      :map="map"
+    />
+  </div>
 </template>
 
 <script lang="ts">
@@ -79,5 +81,10 @@ export default defineComponent({
 
 
 <style scoped lang="scss">
+.game {
+  display: inline-block;
+  padding: 10px 20px 20px;
+  background-color: #ddeee7;
+}
 
 </style>

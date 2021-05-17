@@ -20,6 +20,8 @@ $size: 35px;
 $eyeSize: 5px;
 
 .reset-button {
+    $self: &;
+
     cursor: pointer;
     position: relative;
     vertical-align: middle;
@@ -59,6 +61,12 @@ $eyeSize: 5px;
         width: 50%;
         border-radius: 50%;
         transform: translateX(-50%);
+    }
+
+    &:active{
+        #{$self}__eye--left{
+            transform: scaleY(0.5);
+        }
     }
 }
 </style>

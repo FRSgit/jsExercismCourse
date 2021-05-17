@@ -31,4 +31,8 @@ svg {
   width: 100%;
   height: 100%;
 }
+
+.mt-10px{
+  margin-top: 10px;
+}
 </style>

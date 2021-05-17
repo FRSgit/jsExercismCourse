@@ -26,6 +26,7 @@ export default defineComponent({
 .click-counter {
     box-sizing: border-box;
     display: inline-flex;
+    margin-right: 5%;
     align-items: center;
     justify-content: center;
     width: 100px;
