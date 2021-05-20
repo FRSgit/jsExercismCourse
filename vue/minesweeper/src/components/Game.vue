@@ -10,11 +10,13 @@
       v-model:time="timeCounter"
       :start="startCounter"
     />
-    <ResetButton @click="resetGame"/>
+    <ResetButton @click="resetGame" :stillPlay="stillPlay"/>
     <Board class="mt-10px"
+      @loseGame="lostGame"
       v-model:clickCounter="clickCounter"
       v-model:flagCounter="flagCounter"
       :map="map"
+      :stillPlay="stillPlay"
     />
   </div>
 </template>
@@ -46,6 +48,7 @@ export default defineComponent({
       const flagDisplay = computed(() => flagCounter.value.toString().padStart(3, '0'));
       const { map, reset: resetMap } = useMap(bombNumber);
       let firstClick = true;
+      const stillPlay = ref(true);
 
       watch([flagCounter, clickCounter], () => {
          if(firstClick){
@@ -54,14 +57,27 @@ export default defineComponent({
          }
       });
 
+      const stopTime = () => {
+        startCounter.value = 0;
+      };
+
+      const lostGame = () => {
+        stillPlay.value = false;
+        stopTime();
+      }
+
       const resetTime = () => {
+        stopTime();
         timeCounter.value = 0;
         firstClick = true;
       };
 
+      
+
       const resetGame = () => {
         resetMap();
         resetTime();
+        stillPlay.value = true;
         clickCounter.value = 0;
         flagCounter.value = bombNumber.value;
       };
@@ -73,7 +89,9 @@ export default defineComponent({
           flagDisplay,
           timeCounter,
           resetGame,
-          startCounter
+          startCounter,
+          lostGame,
+          stillPlay,
       };
   }
 });

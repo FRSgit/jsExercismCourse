@@ -44,13 +44,15 @@ export default defineComponent({
       watch(start, ()=>{
         if(start.value !== 0){
           intervalId = setInterval(calculateSecond, 1000);
-        }
-      });
-      watch(time, ()=>{
-        if(time.value === 0){
+        } else {
           clearInterval(intervalId);
         }
       });
+      // watch(time, ()=>{
+      //   if(time.value === 0){
+      //     clearInterval(intervalId);
+      //   }
+      // });
 
       return {
           formattedTime,

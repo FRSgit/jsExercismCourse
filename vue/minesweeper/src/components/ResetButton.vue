@@ -1,8 +1,12 @@
 <template>
-    <button @click="$emit('click')" class="reset-button">
-        <div class="reset-button__eye reset-button__eye--left"></div>
-        <div class="reset-button__eye reset-button__eye--right"></div>
-        <div class="reset-button__mouth"></div>
+    <button 
+        @click="$emit('click')" 
+        class="reset-button" 
+        :class="{'reset-button--game-lost': !stillPlay}"
+    >
+        <div class="reset-button__eye reset-button__eye--left"/>
+        <div class="reset-button__eye reset-button__eye--right"/>
+        <div class="reset-button__mouth"/>
     </button>
 </template>
 
@@ -12,6 +16,12 @@ import { defineComponent } from 'vue'
 export default defineComponent({
     name: 'ResetButton',
     emits: ['click'],
+    props: {
+        stillPlay: {
+            type: Boolean,
+            required: true,
+        }
+    }
 })
 </script>
 
@@ -66,6 +76,13 @@ $eyeSize: 5px;
     &:active{
         #{$self}__eye--left{
             transform: scaleY(0.5);
+        }
+    }
+
+    &--game-lost {
+        #{$self}__mouth {
+            transform: rotateZ(180deg) translateX(50%);
+            transform-origin: 50% calc(100% - 1.5px);
         }
     }
 }

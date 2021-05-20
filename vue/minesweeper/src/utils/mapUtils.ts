@@ -28,6 +28,14 @@ export const revealMap = (board: Cell[][], y:number, x:number): void => {
   } 
 }
 
+export const revealBombs = (board: Cell[][]):void => {
+  board.forEach((row) => {
+    row.forEach((cell) => {
+      if (cell.value === '*') cell.hidden = false;
+    })
+  });
+};
+
 function replaceField(resultRow:string, i:number, value:number) {
     const temporaryRow = resultRow.split('');
     const oldValue = isNaN(parseInt(temporaryRow[i])) ? 0 : parseInt(temporaryRow[i]);

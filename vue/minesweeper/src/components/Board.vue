@@ -9,7 +9,7 @@
 <script lang="ts">
 import { defineComponent, PropType, ref, toRefs, watch } from 'vue';
 import Map from './Map.vue';
-import { parseMap, revealMap } from '@/utils/mapUtils';
+import { parseMap, revealMap, revealBombs } from '@/utils/mapUtils';
 
 export default defineComponent({
   name: 'Board',
@@ -25,19 +25,24 @@ export default defineComponent({
     flagCounter: {
       type: Number,
       required: true,
+    },
+    stillPlay:{
+      type: Boolean,
+      required: true,
     }
   },
-  emits:['update:clickCounter', 'update:flagCounter'],
+  emits:['update:clickCounter', 'update:flagCounter', 'loseGame'],
   components: {
       Map,
   },
   setup(props,{emit}){
-      const { map, clickCounter, flagCounter } = toRefs(props);
+      const { map, clickCounter, flagCounter, stillPlay } = toRefs(props);
       const board = ref(parseMap(map));
-      
+
       watch(map, () => board.value = parseMap(map));
 
       const toggleFlag = (x: number, y: number) => {
+        if(!stillPlay.value) return;
         const cell = board.value[y][x]; 
         if(!cell.hidden) return;
 
@@ -51,7 +56,12 @@ export default defineComponent({
       };
 
       const onCellClick = (x: number, y: number) => {
+        if(!stillPlay.value) return;
         const cell = board.value[y][x];
+        if(cell.value === '*'){
+          emit('loseGame');
+          revealBombs(board.value);
+        }
         if(cell.flag || !cell.hidden) return;
         emit('update:clickCounter', clickCounter.value+1);
         revealMap(board.value, y, x);
