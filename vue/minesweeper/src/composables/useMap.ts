@@ -1,7 +1,7 @@
 import { ref, Ref, watch } from "vue";
 
-export const MAP_BOMB_NUMBER = 30;
-const MAP_SIZE = 16;
+export const MAP_BOMB_NUMBER = 5;
+const MAP_SIZE = 10;
 
 const generateMap = (bombNumber: number): string[] => {
     const map = new Array(MAP_SIZE)

@@ -2,7 +2,10 @@
     <button 
         @click="$emit('click')" 
         class="reset-button" 
-        :class="{'reset-button--game-lost': !stillPlay}"
+        :class="{
+            'reset-button--game-lost': !stillPlay && !winGame,
+            'reset-button--game-won': !stillPlay && winGame
+        }"
     >
         <div class="reset-button__eye reset-button__eye--left"/>
         <div class="reset-button__eye reset-button__eye--right"/>
@@ -20,7 +23,11 @@ export default defineComponent({
         stillPlay: {
             type: Boolean,
             required: true,
-        }
+        },
+        winGame: {
+            type: Boolean,
+            required: true,
+        },
     }
 })
 </script>
@@ -28,6 +35,8 @@ export default defineComponent({
 <style lang="scss" scoped>
 $size: 35px;
 $eyeSize: 5px;
+$eyeHeight: $eyeSize * 1.5;
+$glassSize: 1.5px;
 
 .reset-button {
     $self: &;
@@ -47,7 +56,7 @@ $eyeSize: 5px;
         position: absolute;
         top: 25%;
         border: none;
-        height: $eyeSize * 1.5;
+        height: $eyeHeight;
         width: $eyeSize;
         border-radius: 50%;
         background-color: black;
@@ -83,6 +92,32 @@ $eyeSize: 5px;
         #{$self}__mouth {
             transform: rotateZ(180deg) translateX(50%);
             transform-origin: 50% calc(100% - 1.5px);
+        }
+    }
+
+    &--game-won {
+        #{$self}__eye {
+            border-radius: 0;
+            width: $eyeSize * 1.7;
+
+            &--left {
+                left: 20%;
+            }
+
+            &--right {
+                right: 20%;
+            }
+        }
+
+        &::after {
+            content: '';
+            display: block;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: calc(25% + #{$eyeHeight / 2 - $glassSize / 2});
+            height: $glassSize;
+            background-color: black;
         }
     }
 }

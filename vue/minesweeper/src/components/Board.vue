@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref, toRefs, watch } from 'vue';
+import { computed, defineComponent, PropType, ref, toRefs, watch } from 'vue';
 import Map from './Map.vue';
 import { parseMap, revealMap, revealBombs } from '@/utils/mapUtils';
 
@@ -31,15 +31,29 @@ export default defineComponent({
       required: true,
     }
   },
-  emits:['update:clickCounter', 'update:flagCounter', 'loseGame'],
+  emits:['update:clickCounter', 'update:flagCounter', 'loseGame', 'winGame'],
   components: {
       Map,
   },
   setup(props,{emit}){
       const { map, clickCounter, flagCounter, stillPlay } = toRefs(props);
       const board = ref(parseMap(map));
+      const hiddenFields = computed(() => board.value
+        .reduce((acc, cur) => {
+          cur.forEach((val)=> val.hidden && acc.push(val));
+          return acc;
+        }, []).length
+      );
+      const existingBombs = computed(() =>
+        board.value.reduce((acc, cur) => {
+          cur.forEach((val)=> val.value==='*' && ++acc);
+          return acc;
+        }, 0)
+      )
+
 
       watch(map, () => board.value = parseMap(map));
+      watch(hiddenFields, () => hiddenFields.value===existingBombs.value && emit('winGame'));
 
       const toggleFlag = (x: number, y: number) => {
         if(!stillPlay.value) return;
