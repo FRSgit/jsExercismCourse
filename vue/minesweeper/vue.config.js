@@ -1,5 +1,14 @@
 module.exports = {
   publicPath: '/jsExercismCourse/',
+  devServer: {
+    
+    proxy: {
+      '^/api': {
+        target: 'http://someaddress.net/api',
+        changeOrigin: true
+      },
+    }
+  },
   chainWebpack: (config) => {
     const svgRule = config.module.rule('svg');
 

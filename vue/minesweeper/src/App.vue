@@ -1,16 +1,21 @@
 <template>
-  <Game/>
+  <Game v-if="username" :username="username" @reset-username="username = ''" />
+  <ChangeName v-model:username="username" v-else />
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 import Game from './components/Game.vue';
+import ChangeName from './components/ChangeName.vue';
 
 export default defineComponent({
   name: 'App',
   components: {
-    Game,
-  }
+    Game, ChangeName,
+  },
+  setup() {
+    return { username: ref(''), console };
+  },
 });
 </script>
 
