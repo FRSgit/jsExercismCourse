@@ -31,14 +31,13 @@ export default defineComponent({
     },
   },
   setup(props, ctx) {
-    const { update } = toRefs(props);
+    const { update, username } = toRefs(props);
     const stats = ref();
     const areStatsLoading = ref();
 
     watch(update, update => {
-      console.log(update);
       if (update) {
-        const { data, isFinished } = useAxios('/stats', instance);
+        const { data, isFinished } = useAxios(`/stats?username=${username.value}`, instance);
         const deregisterIsFinished = watch(isFinished, isFinished => {
           areStatsLoading.value = isFinished;
           stats.value = data.value;

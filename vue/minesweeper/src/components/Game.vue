@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, watch } from 'vue';
+import { computed, defineComponent, ref, toRefs, watch } from 'vue';
 import Board from './Board.vue';
 import UserBar from './UserBar.vue';
 import Counter from './Counter.vue';
@@ -53,7 +53,8 @@ export default defineComponent({
       required: true,
     },
   },
-  setup() {
+  setup(props) {
+    const { username } = toRefs(props);
     const timeCounter = ref(0);
     const startCounter = ref(0);
     const clickCounter = ref(0);
@@ -78,7 +79,11 @@ export default defineComponent({
     };
 
     const countGame = (data: { won: boolean, time: number }) => {
-      const { isFinished } = useAxios('/stats/countGame', { method: 'POST', data }, instance);
+      const { isFinished } = useAxios(
+        '/stats/countGame',
+        { method: 'POST', data: { ...data, username: username.value} },
+        instance,
+      );
       watch(isFinished, isFinished => {
         if (isFinished) updateUserBar.value = true;
       });
