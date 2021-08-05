@@ -33,15 +33,15 @@ export default defineComponent({
   setup(props, ctx) {
     const { update, username } = toRefs(props);
     const stats = ref();
-    const areStatsLoading = ref();
+    const areStatsLoading = ref(false);
 
     watch(update, update => {
       if (update) {
         const { data, isFinished } = useAxios(`/stats?username=${username.value}`, instance);
         const deregisterIsFinished = watch(isFinished, isFinished => {
-          areStatsLoading.value = isFinished;
-          stats.value = data.value;
+          areStatsLoading.value = !isFinished;
           if (isFinished) {
+            stats.value = data.value;
             deregisterIsFinished();
             ctx.emit('update:update', false);
           }
