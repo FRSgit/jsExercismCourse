@@ -1,55 +1,47 @@
 <template>
   <div class="bar">
-    <div>
-      <button type="button" @click="$emit('reset-username')">✎</button>
-      {{ username }}
-    </div>
-    <div v-if="!areStatsLoading && stats">
-      🕓 {{ stats.avgWinTime }}
-      🏆 {{ stats.wins }}
-      😵 {{ stats.losses }}
-    </div>
+    <template v-if="username !== undefined">
+      <div>{{ username }}</div>
+      <div v-if="stats">
+        🕓 {{ stats.avgWinTime }}
+        🏆 {{ stats.wins }}
+        😵 {{ stats.losses }}
+      </div>
+    </template>
+    <template v-else>
+      <div class="my-10px">To store stats:</div>
+      <div class="my-10px">
+        <Btn @click="navigateToLogin">Login</Btn>
+        or
+        <Btn @click="navigateToRegister">Register</Btn>
+      </div>
+    </template>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, toRefs, watch } from 'vue';
-import { useAxios } from '@vueuse/integrations';
-import { instance } from '@/utils/axiosUtils';
+import { computed, defineComponent } from 'vue';
+import store, { Page } from '@/store';
+import Btn from '@/components/Btn.vue';
 
 export default defineComponent({
   name: 'UserBar',
-  events: ['reset-username', 'update:update'],
-  props: {
-    username: {
-      type: String,
-      required: true,
-    },
-    update: {
-      type: Boolean,
-      required: true,
-    },
-  },
-  setup(props, ctx) {
-    const { update, username } = toRefs(props);
-    const stats = ref();
-    const areStatsLoading = ref(false);
+  components: { Btn },
+  setup() {
+    if (store.state.user?.username) {
+      store.dispatch('getStats');
+    }
 
-    watch(update, update => {
-      if (update) {
-        const { data, isFinished } = useAxios(`/stats?username=${username.value}`, instance);
-        const deregisterIsFinished = watch(isFinished, isFinished => {
-          areStatsLoading.value = !isFinished;
-          if (isFinished) {
-            stats.value = data.value;
-            deregisterIsFinished();
-            ctx.emit('update:update', false);
-          }
-        }, { immediate: true });
-      }
-    }, { immediate: true })
-    
-    return { areStatsLoading, stats };
+    return {
+      username: computed(() => store.state.user?.username),
+      stats: computed(() => store.state.stats),
+      navigateToLogin() {
+        store.commit('setCurrentPage', Page.Login);
+      },
+      navigateToRegister() {
+        store.commit('setCurrentPage', Page.Register);
+      },
+    };
   },
 })
 </script>

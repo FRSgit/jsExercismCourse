@@ -1,28 +1,37 @@
 <template>
-  <Game v-if="username" :username="username" @reset-username="username = ''" />
-  <ChangeName v-model:username="username" v-else />
+  <div>
+    <Game class="page" v-if="currentPage === Page.Game" />
+    <Login class="page" v-else-if="currentPage === Page.Login" />
+    <Register class="page" v-else-if="currentPage === Page.Register" />
+  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { computed, defineComponent } from 'vue';
 import Game from './components/Game.vue';
-import ChangeName from './components/ChangeName.vue';
+import Login from './components/Login.vue';
+import Register from './components/Register.vue';
+import store, { Page } from './store';
 
 export default defineComponent({
   name: 'App',
   components: {
-    Game, ChangeName,
+    Game,
+    Login,
+    Register,
   },
   setup() {
-    return { username: ref(''), console };
-  },
+    return {
+      currentPage: computed(() => store.state.currentPage),
+      Page,
+    }
+  }
 });
 </script>
 
 <style lang="scss" src="./fonts/font.scss"></style>
 
 <style lang="scss">
-
 #app {
   font-family: zen_dotsregular, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -32,6 +41,13 @@ export default defineComponent({
   margin-top: 60px;
 }
 
+.page {
+  display: inline-block;
+  min-width: 50vw;
+  padding: 10px 20px 20px;
+  background-color: #ddeee7;
+}
+
 svg {
   width: 100%;
   height: 100%;
@@ -39,5 +55,18 @@ svg {
 
 .mt-10px{
   margin-top: 10px;
+}
+
+.my-10px{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.ml-10px {
+  margin-left: 10px !important;
+}
+
+.mt-20px{
+  margin-top: 20px;
 }
 </style>
