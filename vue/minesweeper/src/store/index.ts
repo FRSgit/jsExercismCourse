@@ -30,8 +30,9 @@ export default createStore({
     currentPage: Page.Game,
   },
   mutations: {
-    setUser(state, user: User) {
-      localStorage.setItem('user', JSON.stringify(user));
+    setUser(state, user?: User) {
+      if (user) localStorage.setItem('user', JSON.stringify(user));
+      else localStorage.removeItem('user');
       state.user = user;
     },
     setStats(state, stats: Stats) {
@@ -69,6 +70,10 @@ export default createStore({
       await store.dispatch('getStats');
 
       return data;
+    },
+    logout: (store) => {
+      store.commit('setUser', undefined);
+      store.commit('setStats', undefined);
     }
   }
 })

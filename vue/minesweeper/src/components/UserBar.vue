@@ -1,7 +1,10 @@
 <template>
   <div class="bar">
     <template v-if="username !== undefined">
-      <div>{{ username }}</div>
+      <div>
+        <Btn @click="logout">X</Btn>
+        {{ username }}
+      </div>
       <div v-if="stats">
         🕓 {{ stats.avgWinTime }}
         🏆 {{ stats.wins }}
@@ -41,6 +44,9 @@ export default defineComponent({
       navigateToRegister() {
         store.commit('setCurrentPage', Page.Register);
       },
+      logout() {
+        store.dispatch('logout');
+      }
     };
   },
 })
