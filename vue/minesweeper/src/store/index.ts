@@ -49,7 +49,11 @@ export default createStore({
     },
     async postGame(store, data: { won: boolean; time: number }) {
       if (!store.state.user?.username) return;
-      await instance.post('/stats/countGame', { ...data, username: store.state.user.username });
+      await instance.post('/stats/countGame', {
+        ...data,
+        id: store.state.user.id,
+        token: store.state.user.token,
+      });
       await store.dispatch('getStats');
     },
     async register(_store, payload: { username: string; password: string }) {

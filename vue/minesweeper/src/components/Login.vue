@@ -6,7 +6,7 @@
       <Input v-model="password" name="password" class="mt-10px" type="password" placeholder="Type in your password" />
       <div class="mt-20px">
         <Btn @click="navigateToGame">Cancel</Btn>
-        <Btn class="ml-10px" type="submit" :disabled="!username || !password">Login</Btn>
+        <Btn class="ml-10px" type="submit">Login</Btn>
       </div>
       <div class="error mt-10px" v-for="error in errorArray" :key="error">
         <small>{{ error }}</small>
