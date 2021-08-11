@@ -33,7 +33,7 @@ export default defineComponent({
 
 <style lang="scss">
 #app {
-  font-family: zen_dotsregular, Arial, sans-serif;
+  font-family: zen_dotsregular, 'Lucida Console', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -68,5 +68,9 @@ svg {
 
 .mt-20px{
   margin-top: 20px;
+}
+
+.mxw-50vw {
+  max-width: 50vw;
 }
 </style>

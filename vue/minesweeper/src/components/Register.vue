@@ -8,7 +8,7 @@
         <Btn @click="navigateToGame">Cancel</Btn>
         <Btn class="ml-10px" type="submit">Register</Btn>
       </div>
-      <div class="error mt-10px" v-for="error in errorArray" :key="error">
+      <div class="error mt-10px mxw-50vw" v-for="error in errorArray" :key="error">
         <small>{{ error }}</small>
       </div>
       <div class="mt-20px">
@@ -45,9 +45,9 @@ export default defineComponent({
           username: username.value,
           password: password.value,
          })
-          .catch(({ data }) => { 
-            errorArray.value = data?.errors
-              ? data.errors
+          .catch(({ response }) => {
+            errorArray.value = response.data?.errors
+              ? response.data.errors
               : ['Unexpected server error'];
           });
         
