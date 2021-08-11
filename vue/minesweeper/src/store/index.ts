@@ -46,7 +46,7 @@ export default createStore({
     async getStats(store) {
       if (!store.state.user?.token) return;
       const stats = await instance.get(`/stats?id=${store.state.user.id}&token=${store.state.user.token}`);
-      store.commit('setStats', stats);
+      store.commit('setStats', stats.data);
     },
     async postGame(store, data: { won: boolean; time: number }) {
       if (!store.state.user?.username) return;
