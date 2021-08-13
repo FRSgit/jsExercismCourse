@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+import { computed, defineComponent, onMounted } from 'vue';
 import Game from './components/Game.vue';
 import Login from './components/Login.vue';
 import Register from './components/Register.vue';
@@ -21,6 +21,18 @@ export default defineComponent({
     Register,
   },
   setup() {
+    (async () => {
+      const url = new URL(window.location.href);
+      const pathname = url.pathname.substring('/jsExercismCourse'.length + 1);
+      const token = url.searchParams.get('token');
+
+      if (pathname === 'deleteUser' && token) {
+        await store.dispatch('deleteUser', token);
+        await store.dispatch('logout');
+        window.location.href = '/jsExercismCourse';
+      }
+    })();
+
     return {
       currentPage: computed(() => store.state.currentPage),
       Page,

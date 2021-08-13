@@ -2,7 +2,8 @@
   <div class="bar">
     <template v-if="username !== undefined">
       <div>
-        <Btn @click="logout">X</Btn>
+        <Btn @click="removeUser">🗑</Btn>
+        <Btn class="ml-10px" @click="logout">X</Btn>
         {{ username }}
       </div>
       <div v-if="stats">
@@ -46,6 +47,9 @@ export default defineComponent({
       },
       logout() {
         store.dispatch('logout');
+      },
+      removeUser() {
+        store.dispatch('removeUser');
       }
     };
   },

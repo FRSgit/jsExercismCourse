@@ -74,6 +74,19 @@ export default createStore({
     logout: (store) => {
       store.commit('setUser', undefined);
       store.commit('setStats', undefined);
+    },
+    removeUser: (store) => {
+      if (!store.state.user?.id) return;
+      return instance.post(`/user/${store.state.user.id}/sendDeleteEmail`, { token: store.state.user.token });
+    },
+    deleteUser: (store, token: string) => {
+      if (!store.state.user?.id) return;
+      return instance.delete(`/user/${store.state.user.id}`, { 
+        params: {
+          token: store.state.user.token,
+          deleteToken: token
+        }
+      });
     }
   }
 })
